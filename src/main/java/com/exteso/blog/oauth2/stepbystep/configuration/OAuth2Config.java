@@ -59,10 +59,10 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient("service-account-1")
-                .secret("service-account-1-secret")
+               // .secret("service-account-1-secret")
                 .authorizedGrantTypes("client_credentials")
                 .scopes("resource-server-read", "resource-server-write")
-                .accessTokenValiditySeconds(60);
+                .accessTokenValiditySeconds(180);
     }
     
 
