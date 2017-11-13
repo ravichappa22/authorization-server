@@ -36,7 +36,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()");
+                .checkTokenAccess("permitAll()");
     }
 
     @Bean
@@ -62,7 +62,15 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                // .secret("service-account-1-secret")
                 .authorizedGrantTypes("client_credentials")
                 .scopes("resource-server-read", "resource-server-write")
-                .accessTokenValiditySeconds(180);
+                .accessTokenValiditySeconds(120)
+                
+                .and().withClient("service-account-2")
+               // .secret("service-account-1-secret")
+                .authorizedGrantTypes("client_credentials")
+                .scopes("resource-server-read", "resource-server-write")
+                .accessTokenValiditySeconds(120);
+        
+        
     }
     
 

@@ -20,7 +20,7 @@ public class SecurityConfiguration extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		super.configure(http);
-		http.authorizeRequests().antMatchers("/login","oauth/token","oauth/check_token","auth/check_token", "oauth/token_key", "oauth/validate","/getTokenForUser")
+		http.authorizeRequests().antMatchers("/login","oauth/token","oauth/check_token","auth/check_token", "oauth/token_key", "oauth/validate","oauth/validate", "/getTokenForUser")
 						.permitAll().anyRequest().authenticated();
 	}
 	
