@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -30,7 +31,8 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.tokenStore(tokenStore())
                 .tokenEnhancer(jwtTokenEnhancer())
-                .authenticationManager(authenticationManager);
+                .authenticationManager(authenticationManager)
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
     }
 
     @Override
@@ -65,10 +67,11 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .accessTokenValiditySeconds(120)
                 
                 .and().withClient("service-account-2")
-               // .secret("service-account-1-secret")
-                .authorizedGrantTypes("client_credentials")
+                .secret("service-account-2-secret")
+                .authorizedGrantTypes("client_credentials", "password", "refresh_token")
+                .authorities("ROLE_resource-server-read", "ROLE_resource-server-write")
                 .scopes("resource-server-read", "resource-server-write")
-                .accessTokenValiditySeconds(120);
+                .accessTokenValiditySeconds(60);
         
         
     }
