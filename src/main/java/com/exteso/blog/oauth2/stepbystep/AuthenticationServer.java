@@ -44,11 +44,13 @@ public class AuthenticationServer{
     @RequestMapping(value="/getTokenForUser", method=RequestMethod.GET)
     public OAuth2AccessToken userToken(@RequestHeader String roles, @RequestHeader String userName) {
         logger.info("AS /userToken has been called and the Roles are =" + roles);
-        //Assume we got privileges from DB whic is ROLE_READ, ROLE_WRITE
+        //call  FOX DB for FOX Roles with the corresponding SiteMinder Groups 
+        //get privileges from DB also for those roles. Now These privileges are treated as Granted Authorities in spring.
         // Authorities
 	    List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 	    for(String role: roles.split(","))
 	        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+	      	//authorities.add(new SimpleGrantedAuthority(role));
         User user = new User(userName, "N/A" , authorities);
          return myAuthCustomTokenGenerator.generateOAuth2AccessToken(user, authorities);
       //  logger.debug("user info: " + user.toString());
